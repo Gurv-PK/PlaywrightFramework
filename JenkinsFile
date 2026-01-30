@@ -1,0 +1,41 @@
+pipeline{
+    agent : any
+    tools{
+        nodejs 'node18'
+    }
+    env{
+
+    }
+    stages{
+        stage('checkout'){
+            steps{
+                checkout scm
+            }
+        }
+        stage('Install dependencies'){
+            steps{
+                sh 'npm ci'
+                sh 'npx playwright install --with-deps'
+            }
+        }
+        stage('Run tests'){
+            steps{
+                sh 'npx playwright test'
+            }
+        }
+        stage('Archive Reports'){
+            steps{
+                archiveArtifacts artifacts: 'playwright-report/**', fingerprint: true
+            }
+        }
+        stage('Upload to s3'){
+            steps{
+                withAWS(credentials: 'aws=s3-creds'){
+                    sh '''
+                        aws s3 sync playwright-report \ s3://$s3_BUCKET/build-$BUILDNUMBER/
+                        '''
+                }
+            }
+        }
+    }
+}
