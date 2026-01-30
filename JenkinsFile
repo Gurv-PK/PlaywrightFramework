@@ -1,10 +1,11 @@
 pipeline{
-    agent : any
+    agent any
     tools{
         nodejs 'node18'
     }
-    env{
-
+    environment {
+        AWS_DEFAULT_REGION = 'us-east-1'
+        S3_BUCKET = 'playwright-test-reportsci'
     }
     stages{
         stage('checkout'){
@@ -30,9 +31,10 @@ pipeline{
         }
         stage('Upload to s3'){
             steps{
-                withAWS(credentials: 'aws=s3-creds'){
+                {
                     sh '''
-                        aws s3 sync playwright-report \ s3://$s3_BUCKET/build-$BUILDNUMBER/
+                        aws s3 sync playwright-report/ s3://$s3_BUCKET/build-$BUILDNUMBER/playwright-report/
+                        aws s3 sync test-results/ s3://$s3_BUCKET/build-$BUILDNUMBER/test-results/
                         '''
                 }
             }
