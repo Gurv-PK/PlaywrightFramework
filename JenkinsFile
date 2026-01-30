@@ -13,30 +13,28 @@ pipeline{
                 checkout scm
             }
         }
-        stage('Install dependencies'){
+        stage('Install dependencies') {
             steps{
                 sh 'npm ci'
                 sh 'npx playwright install --with-deps'
             }
         }
-        stage('Run tests'){
+        stage('Run tests') {
             steps{
                 sh 'npx playwright test'
             }
         }
-        stage('Archive Reports'){
+        stage('Archive Reports') {
             steps{
                 archiveArtifacts artifacts: 'playwright-report/**', fingerprint: true
             }
         }
-        stage('Upload to s3'){
+        stage('Upload to s3') {
             steps{
-                {
                     sh '''
-                        aws s3 sync playwright-report/ s3://$s3_BUCKET/build-$BUILDNUMBER/playwright-report/
-                        aws s3 sync test-results/ s3://$s3_BUCKET/build-$BUILDNUMBER/test-results/
+                        aws s3 sync playwright-report/ s3://$S3_BUCKET/build-$BUILD_NUMBER/playwright-report/
+                        aws s3 sync test-results/ s3://$S3_BUCKET/build-$BUILD_NUMBER/test-results/
                         '''
-                }
             }
         }
     }
