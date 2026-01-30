@@ -1,0 +1,10 @@
+{
+    "validuser":{
+        "username": "standard_user",
+        "password": "secret_passoword"
+    },
+    "Invaliduser":{
+        "username": "user",
+        "password": "secret_passoword"
+    }
+}

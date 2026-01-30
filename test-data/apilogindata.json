@@ -1,0 +1,10 @@
+{
+    "validcreds":{
+        "username": "admin",
+        "password": "password123"
+    },
+    "invalidcreds":{
+        "username": "admin",
+        "password": "password"
+    }
+}
