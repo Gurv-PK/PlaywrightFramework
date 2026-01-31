@@ -1,7 +1,7 @@
 // @ts-check
 import { defineConfig, devices } from "@playwright/test";
-const dotenv = require('dotenv');
-const path = require('path');
+import dotenv from 'dotenv';
+import path from "path";
 import ENV_CONFIG from './utils/env-setup.js';
 
 const ENV = process.env.ENV || 'qa';
@@ -19,7 +19,7 @@ module.exports = defineConfig({
         baseURL: ENV_CONFIG.url,
         trace: 'on-first-retry',
         screenshot: 'only-on-failure',
-        video: 'retain-on-failure',
+        video: 'on-first-retry',
     },
     projects:[
         {

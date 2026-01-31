@@ -1,5 +1,6 @@
 //@ts-check
-require('dotenv').config({
+import dotenv from 'dotenv';
+dotenv.config({
     path: `.env.${process.env.ENV || 'qa'}`
 });
 
