@@ -1,4 +1,4 @@
-import Apidata from '../test-data/logindata.json' assert { type: 'json' }
+import Apidata from '../../test-data/logindata.json' assert { type: 'json' }
 
 
 export class LoginRequest{
