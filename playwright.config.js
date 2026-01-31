@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename)
 const ENV = process.env.ENV || 'qa';
 dotenv.config({ path: path.resolve(__dirname, `.env.${ENV}`) });
 
-module.exports = defineConfig({
+export default defineConfig({
     testDir: './tests',
     fullyParallel: true,
         forbidOnly: !!process.env.CI,
