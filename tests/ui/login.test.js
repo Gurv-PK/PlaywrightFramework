@@ -1,6 +1,6 @@
 import test, { expect } from "@playwright/test";
 import LoginPage from "../../pages/LoginPage";
-import Logindata from "../../test-data/logindata.json";
+import Logindata from "../../test-data/logindata.json" assert { type: 'json' };
 
 test.describe('login',()=>{
     let login;
