@@ -1,4 +1,5 @@
-import Apidata from "../../test-data/apilogindata.json"
+import Apidata from '../test-data/logindata.json' assert { type: 'json' }
+
 
 export class LoginRequest{
     constructor(username, password){
