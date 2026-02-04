@@ -13,22 +13,46 @@ pipeline{
                 checkout scm
             }
         }
-        stage('Install dependencies') {
+       
+        stage('Build and Push Docker Images') {
             steps{
-                sh 'npm ci'
-                sh 'npx playwright install'
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhubcreds',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh '''
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker build -t $DOCKER_USER/playwright-test:$BUILD_NUMBER .
+                        docker push $DOCKER_USER/playwright-test:$BUILD_NUMBER
+                        '''
+                }
             }
         }
-        stage('Run tests') {
+        stage('Run tests on Kubernetes') {
             steps{
-                sh 'npx playwright test'
+                sh '''
+                    kubectl delete job playwright-tests --ignore-not-found
+                    sed -i "s/BUILD_NUMBER/$BUILD_NUMBER/g" batch.yaml
+                    kubectl apply -f batch.yaml
+                '''
             }
         }
-        stage('Archive Reports') {
-            steps{
-                archiveArtifacts artifacts: 'playwright-report/**', fingerprint: true
+
+        stage('Wait for Kubernetes Job') {
+            steps {
+                sh '''
+                  kubectl wait --for=condition=complete job/playwright-tests --timeout=600s
+                '''
             }
         }
+
+        stage('Fetch logs of Kubernetes') {
+            steps{
+                sh 'kubectl logs job/playwright-tests'
+            }
+        }
+
         stage('Upload to s3') {
             steps{
                     sh '''

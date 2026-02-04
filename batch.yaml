@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: playwright-tests
+spec:
+  ttlSecondsAfterFinished: 300
+  backoffLimit: 1
+  template:
+    spec:
+      containers:
+        - name: playwright
+          image: gurvpk/playwright-test:BUILD_NUMBER
+          env:
+            - name: ENV
+              value: "qa"
+      restartPolicy: Never

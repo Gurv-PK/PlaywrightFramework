@@ -7,7 +7,7 @@ test.describe('Auth Service Test',()=>{
     let authService;
     let apiContext;
 
-    test.beforeAll(async({request}) =>{
+    test.beforeAll(async() =>{
         apiContext = await createAPIContext();
         authService = new ApiAuthService(apiContext)
     })
