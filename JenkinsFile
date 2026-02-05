@@ -22,8 +22,12 @@ pipeline{
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
                     sh '''
+                    echo "--- Checking current directory ---"
+                        pwd
+                        ls -F
+                    echo "----------------------------------"
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                        docker build -t $DOCKER_USER/playwright-test:$BUILD_NUMBER -f Playwright_Test/
+                        docker build -t $DOCKER_USER/playwright-test:$BUILD_NUMBER -f Playwright_Test/Dockerfile
                         docker push $DOCKER_USER/playwright-test:$BUILD_NUMBER
                         '''
                 }
