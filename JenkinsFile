@@ -23,7 +23,7 @@ pipeline{
                 )]) {
                     sh '''
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                        docker build -t $DOCKER_USER/playwright-test:$BUILD_NUMBER -f Playwright_Test/Dockerfile Playwright_Test/
+                        docker build -t $DOCKER_USER/playwright-test:$BUILD_NUMBER -f Playwright_Test/
                         docker push $DOCKER_USER/playwright-test:$BUILD_NUMBER
                         '''
                 }
