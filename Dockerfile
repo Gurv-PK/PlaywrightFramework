@@ -4,5 +4,5 @@ COPY package*.json ./
 RUN npm ci
 COPY . .
 ENV ENV=qa
-ENV CI-true
+ENV CI=true
 CMD ["npx", "playwright", "test"]
