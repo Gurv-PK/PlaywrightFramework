@@ -57,14 +57,15 @@ pipeline{
             }
         }
 
-        stage('Upload to s3') {
-            steps{
-                    sh '''
-                        aws s3 sync playwright-report/ s3://$S3_BUCKET/build-$BUILD_NUMBER/playwright-report/
-                        aws s3 sync test-results/ s3://$S3_BUCKET/build-$BUILD_NUMBER/test-results/
-                        '''
-            }
-        }
+        // Not required as added uploading of reports directly from pod 
+        // stage('Upload to s3') {
+        //     steps{
+        //             sh '''
+        //                 aws s3 sync playwright-report/ s3://$S3_BUCKET/build-$BUILD_NUMBER/playwright-report/
+        //                 aws s3 sync test-results/ s3://$S3_BUCKET/build-$BUILD_NUMBER/test-results/
+        //                 '''
+        //     }
+        // }
     }
     post {
         always{
