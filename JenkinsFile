@@ -46,7 +46,14 @@ pipeline{
         stage('Wait for Kubernetes Job') {
             steps {
                 sh '''
-                  kubectl wait --for=condition=complete job/playwright-tests --timeout=600s
+                  kubectl wait --for=condition=complete job/playwright-tests --timeout=600s || \
+                  kubectl wait --for=condition=failed job/playwright-tests --timeout=1s
+
+                  if ! kubectl wait --for=condition=complete job/playwright-tests --timeout=600s; then
+                    echo "Job failed. Dumping logs..."
+                    kubectl logs job/playwright-tests --all-containers=true
+                    exit 1
+                fi
                 '''
             }
         }
