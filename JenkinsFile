@@ -37,7 +37,7 @@ pipeline{
             steps{
                 sh '''
                     kubectl delete job playwright-tests --ignore-not-found
-                    sed -i "s/BUILD_NUMBER/$BUILD_NUMBER/g" batch.yaml
+                    sed -i "s/__BUILD_NUMBER__/$BUILD_NUMBER/g" batch.yaml
                     kubectl apply -f batch.yaml
                 '''
             }
