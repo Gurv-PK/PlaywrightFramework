@@ -3,7 +3,7 @@ kind: Job
 metadata:
   name: playwright-tests
 spec:
-  ttlSecondsAfterFinished: 300
+  #ttlSecondsAfterFinished: 300
   backoffLimit: 1
   template:
     spec:
@@ -21,9 +21,9 @@ spec:
                 secretKeyRef:
                   name: aws-creds
                   key: AWS_ACCESS_KEY_ID
-            - name: AWS_SECRET_ACCESS-KEY
+            - name: AWS_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
                   name: aws-creds
-                  key: AWS_SECRET_ACCESS-KEY
+                  key: AWS_SECRET_ACCESS_KEY
       restartPolicy: Never

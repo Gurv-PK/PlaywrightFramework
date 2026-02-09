@@ -60,7 +60,10 @@ pipeline{
 
         stage('Fetch logs of Kubernetes') {
             steps{
-                sh 'kubectl logs job/playwright-tests'
+                sh '''
+                kubectl logs job/playwright-tests
+                kubectl delete job playwright-tests
+                '''
             }
         }
 
