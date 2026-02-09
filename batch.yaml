@@ -15,7 +15,7 @@ spec:
             - name: ENV
               value: "qa"
             - name: BUILD_NUMBER
-              value: "BUILD_NUMBER"
+              value: "__BUILD_NUMBER__"
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
