@@ -20,10 +20,10 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: aws-creds
-                  key: access_key
-            - name: AWS_SECRET_ACCESS_KEY
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS-KEY
               valueFrom:
                 secretKeyRef:
                   name: aws-creds
-                  key: secret_key
+                  key: AWS_SECRET_ACCESS-KEY
       restartPolicy: Never
